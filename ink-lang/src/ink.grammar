@@ -1,0 +1,38 @@
+@top Script { statement* }
+
+statement { 
+    Comment |
+    PriorityComment |
+    Knot |
+    Divert |
+    Image
+}
+
+Image {
+    "#IMAGE" ":" ImageName
+}
+
+ImageName {
+    (Number | Letter) ImageNameTerminator 
+}
+
+Knot {
+    ("=="  | Equals+) AllExceptNewLine
+}
+
+Divert {
+    "-> " AllExceptNewLine
+}
+
+// @skip { space | Comment }
+
+@tokens {
+    space { @whitespace+ }
+    Number { @digit+ }
+    Letter { @asciiLetter+ }
+    ImageNameTerminator { $[jpg] | $[png] | $[svg] }
+    AllExceptNewLine { ![\n]* $[\n] }
+    Equals { $[=] }
+    Comment { "//" ![\n]* }
+    PriorityComment { "TODO:" ![\n]* }
+}
