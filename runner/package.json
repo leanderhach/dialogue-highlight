@@ -20,11 +20,13 @@
     "vite": "^3.2.3"
   },
   "dependencies": {
+    "@codemirror/lang-ink": "../ink-lang/pack/codemirror-lang-ink-0.1.0.tgz",
     "@codemirror/lang-javascript": "6.1.2",
+    "@codemirror/language": "^6.3.2",
     "@codemirror/state": "^6.0.0",
+    "@codemirror/view": "^6.7.1",
     "@lezer/generator": "^1.1.3",
     "@lezer/highlight": "^1.1.3",
-    "codemirror": "6.0.1",
-    "@codemirror/lang-ink": "../ink-lang/pack/codemirror-lang-ink-0.1.0.tgz"
+    "codemirror": "6.0.1"
   }
 }
