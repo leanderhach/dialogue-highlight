@@ -18,12 +18,13 @@
   "sideEffects": false,
   "dependencies": {
     "@codemirror/language": "^6.0.0",
+    "@codemirror/state": "^6.0.0",
     "@lezer/highlight": "^1.0.0",
-    "@lezer/lr": "^1.0.0",
-    "@codemirror/state": "^6.0.0"
+    "@lezer/lr": "^1.0.0"
   },
   "devDependencies": {
     "@lezer/generator": "^1.0.0",
+    "@types/jest": "^29.2.4",
     "mocha": "^9.0.1",
     "rollup": "^2.60.2",
     "rollup-plugin-dts": "^4.0.1",
