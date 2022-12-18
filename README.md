@@ -1,4 +1,4 @@
-# ink
+# Ink-highlight
 
 Basic lexing and highlighting support for the Ink scripting language written using the Lezer framework for the Codemirror code editor.
 
