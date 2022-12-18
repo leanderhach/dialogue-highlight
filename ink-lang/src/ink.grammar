@@ -1,38 +1,47 @@
-@top Script { statement* }
+@top Script { statement+ }
 
 statement { 
-    Comment |
+    SimpleComment |
     PriorityComment |
+    MultiLineComment |
     Knot |
     Divert |
-    Image
+    Image |
+    Glue |
+    Image |
+    StoryEnd |
+    SquareBrackets |
+    Choice
 }
 
 Image {
-    "#IMAGE" ":" ImageName
-}
-
-ImageName {
-    (Number | Letter) ImageNameTerminator 
+    ImageDefinition ImageName
 }
 
 Knot {
-    ("=="  | Equals+) AllExceptNewLine
+    KnotDefinition Letter
 }
 
 Divert {
-    "-> " AllExceptNewLine
+    "->" KnotName
 }
 
-// @skip { space | Comment }
+@skip { space }
 
 @tokens {
     space { @whitespace+ }
     Number { @digit+ }
     Letter { @asciiLetter+ }
-    ImageNameTerminator { $[jpg] | $[png] | $[svg] }
-    AllExceptNewLine { ![\n]* $[\n] }
-    Equals { $[=] }
-    Comment { "//" ![\n]* }
+    KnotName { $[a-zA-Z0-9_]+ }
+    ImageName { $[a-zA-Z0-9_-]* (".png" | ".jpg" | ".svg") }
+    ImageDefinition { "#IMAGE:" }
+    SimpleComment { "//" ![\n]* }
     PriorityComment { "TODO:" ![\n]* }
+    KnotDefinition { "=" "="+ }
+    StoryEnd { "-> END" | "-> DONE" }
+    Glue { "<>" }
+    MultiLineComment { "/*" ![*/]* "*/" }
+    SquareBrackets { "[" ![\]\n]* "]" }
+    Choice { "*" }
+    // @precedence {StoryEnd, Divert}
 }

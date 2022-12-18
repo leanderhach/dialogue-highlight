@@ -13,17 +13,21 @@ export const InkLang = LRLanguage.define({
         Application: foldInside
       }),
       styleTags({
-        Image: t.definitionKeyword,
-        ImageName: t.definitionOperator,
-        Knot: t.string,
-        Divert: t.string,
-        "( )": t.paren
+        ImageName: t.url,
+        ImageDefinition: t.definitionKeyword,
+        Divert: t.definitionKeyword,
+        SimpleComment: t.comment,
+        PriorityComment: t.processingInstruction,
+        MultiLineComment: t.comment,
+        KnotDefinition: t.contentSeparator,
+        StoryEnd: t.escape,
+        Glue: t.logicOperator,
+        SquareBrackets: t.string,
+        "( )": t.paren,
+        Choice: t.definitionKeyword,
       })
     ]
   }),
-  languageData: {
-    commentTokens: {line: ";"}
-  } 
 })
 
 export function Ink() {

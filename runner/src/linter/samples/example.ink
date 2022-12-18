@@ -11,10 +11,12 @@ Residence of Mister Frog
 He was utterly astonished by the world around him
 
 * "Around the World Monsier?"
-    I was utterly astonished -> astonished
+    I was utterly astonished <> -> astonished
 *  [Nod curtly.] -> nod
 
-== Astonished
+== Astonished ==
+<> for I could not believe my eyes
+
 
 #IMAGE: myImage.jpg Let us continue then
 

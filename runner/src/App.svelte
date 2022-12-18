@@ -10,14 +10,25 @@
   import { Ink } from "@codemirror/lang-ink"
   import content from './linter/samples/example.ink?raw';
   import { onMount } from "svelte";
+    import { oneLight } from "./linter/styles/theme-light";
+    import { Compartment, EditorState } from "@codemirror/state";
+    import { oneDark } from "./linter/styles/theme-dark";
 
   let editorWrapper;
 
+  let editorTheme = new Compartment();
+
   onMount(() => {
     new EditorView({
-      doc: content,
-      extensions: [basicSetup, Ink()],
       parent: editorWrapper,
+      state: EditorState.create({
+        doc: content,
+        extensions: [
+          editorTheme.of(oneDark),
+          basicSetup,
+          Ink()
+        ]
+      })
     })
   })
 </script>
@@ -28,6 +39,6 @@
   }
 
   html {
-      background-color: #242424;
+      background-color: #ffffff;
   }
 </style>
