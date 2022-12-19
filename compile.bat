@@ -5,6 +5,13 @@ rmdir /S /Q "node_modules"
 call npm install
 call npm pack --pack-destination ./pack
 
+cd ..
+cd "yarn-lang"
+del "package-lock.json"
+rmdir /S /Q "node_modules"
+call npm install
+call npm pack --pack-destination ./pack
+
 
 if "%1"=="--run" (
 cd ..
