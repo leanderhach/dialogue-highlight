@@ -17,6 +17,7 @@ He was utterly astonished by the world around him
 == Astonished ==
 <> for I could not believe my eyes
 
+= This_Stitch
 
 #IMAGE: myImage.jpg Let us continue then
 

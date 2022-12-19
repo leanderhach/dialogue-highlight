@@ -1,0 +1,47 @@
+title: My Node
+tags: #camera2 background:conductor_cabin
+---
+Fred: This is some text inside the node. We can also give the user choices to consider.
+John: But we can't do that, it goes against our interests
+
+-> Fred: This is Option 1
+    Player: This is the response from option 1
+    <<set $greeting to "this is cool">>
+    <<jump Option1>>
+-> Fred: his is Option 2
+    Player: this is the response from option 2
+
+
+// Inside an if statement:
+<<if dice(6) == 6>>
+    You rolled a six! #line:f65d07
+<<endif>>
+
+// Inside a line:
+Gambler: My lucky number is {random_range(1,10)}!
+===
+
+title: Option1
+---
+Fred: {$greeting}
+
+<<set $gold_amount to 5>>
+
+Player: I'd like to buy a pie!
+
+<<if $gold_amount < 10>>
+    Baker: Well, you can't afford one!
+<<endif>>
+
+Oh, [wave]hello[/wave] there!
+
+Guard: You're not allowed in!
+
+-> Sure I am! The boss knows me! <<if $reputation > 10>>
+-> Please?
+
+I think [select value={$gender} m="he" f="she" nb="they" /] will be there!
+
+<<wait 2>>
+
+===

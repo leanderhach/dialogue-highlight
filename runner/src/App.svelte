@@ -1,32 +1,52 @@
 <svelte:head>
     <link rel="stylesheet" href="/app.css">
 </svelte:head>
-<main bind:this="{editorWrapper}">
+<main>
+  <h2>Ink Highlighting Demo</h2>
+  <div id="ink-editor" bind:this="{inkEditorWrapper}"></div>
+
+  <h2>Yarn Highlighting Demo</h2>
+  <div id="yarn-editor" bind:this="{yarnEditorWrapper}"></div>
 </main>
 
 <script lang="ts">
   import {basicSetup, EditorView} from "codemirror";
   import { javascript } from "@codemirror/lang-javascript"
   import { Ink } from "@codemirror/lang-ink"
-  import content from './linter/samples/example.ink?raw';
+  import { Yarn } from "@codemirror/lang-yarn"
+  import inkContent from './linter/samples/example.ink?raw';
+  import yarnContent from './linter/samples/example.yarn?raw';
   import { onMount } from "svelte";
-    import { oneLight } from "./linter/styles/theme-light";
-    import { Compartment, EditorState } from "@codemirror/state";
-    import { oneDark } from "./linter/styles/theme-dark";
+  import { oneLight } from "./linter/styles/theme-light";
+  import { Compartment, EditorState } from "@codemirror/state";
+  import { oneDark } from "./linter/styles/theme-dark";
 
-  let editorWrapper;
+  let inkEditorWrapper;
+  let yarnEditorWrapper;
 
   let editorTheme = new Compartment();
 
   onMount(() => {
     new EditorView({
-      parent: editorWrapper,
+      parent: inkEditorWrapper,
       state: EditorState.create({
-        doc: content,
+        doc: inkContent,
         extensions: [
           editorTheme.of(oneDark),
           basicSetup,
           Ink()
+        ]
+      })
+    })
+
+    new EditorView({
+      parent: yarnEditorWrapper,
+      state: EditorState.create({
+        doc: yarnContent,
+        extensions: [
+          editorTheme.of(oneDark),
+          basicSetup,
+          Yarn()
         ]
       })
     })
@@ -40,5 +60,9 @@
 
   html {
       background-color: #ffffff;
+  }
+
+  h2 {
+    color: darkgray;
   }
 </style>

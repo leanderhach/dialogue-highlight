@@ -14,7 +14,7 @@ Basic lexing and highlighting support for the Ink scripting language written usi
 ### Mac
 
 ```
-bash compile.sh --run
+bash compile.sh --ink --yarn --run
 ```
 
-> Omit the run flag to just build the language package
+> One of either ```--ink``` or ```--yarn``` must be included, ```--run``` can be ommitted to just build the package

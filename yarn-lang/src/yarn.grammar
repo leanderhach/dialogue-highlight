@@ -1,0 +1,70 @@
+@top Script { statement+ }
+
+statement {
+    Node |
+    NodeInfo
+}
+
+nodeContent {
+    Name |
+    Variable |
+    VariableSet |
+    IfBlock |
+    Letter | 
+    Number
+}
+
+Node {
+    "---" nodeContent* "==="
+}
+
+NodeInfo {
+    Letter ":"
+}
+
+Name {
+    Letter ":"
+}
+
+Variable {
+    "$" JoinedCharacter
+}
+
+VariableSet {
+    BeginStatement "set" Variable "to" (Number | String | Boolean ) EndStatement
+}
+
+IfBlock {
+    BeginStatement "if" (Variable | Number) Operator (Variable | Number) EndStatement nodeContent* BeginStatement "endif" EndStatement
+}
+
+
+
+@skip {} {
+    Space {
+      " "+
+    }
+}
+
+@tokens {
+    space { @whitespace+ }
+    Number { @digit+ }
+    Letter { @asciiLetter+ }
+    String { $["] !["\n]+ $["]}
+    Boolean { "true" | "false" }
+    JoinedCharacter { ($[a-z] | "_" | $[A-Z] | $[0-9])+ }
+    Option { "->" }
+    BeginStatement { "<<" }
+    EndStatement { ">>" }
+    Keyword { "if" | "set" | "else" | "endif" | "elseif" }
+    Operator { 
+        "is" | "to" | "not" | "ne" | "eq" | "le" | "ge" | "gt" | "lt "| "and" | "or" |
+        "+" | "-" | "*/" | "!" | "<" | ">" | "=" | "==" | "<=" | ">="
+    }
+    OpenBrace { "{" }
+    CloseBrace { "}" }
+    OpenSquareBracket { "[" }
+    CloseSquareBracket { "]" }
+    Comment { "//" ![\n] }
+    @precedence{ Comment }
+}
