@@ -15,12 +15,10 @@ export const InkLang = LRLanguage.define({
       styleTags({
         ImageName: t.url,
         ImageDefinition: t.definitionKeyword,
-        "Divert!": t.definitionKeyword,
         SimpleComment: t.comment,
         PriorityComment: t.processingInstruction,
         MultiLineComment: t.comment,
-        "Knot!": t.processingInstruction,
-        "Stitch!": t.comment,
+        "Knot Stitch Divert! LinkedName KnotEnd": t.labelName,
         StoryEnd: t.escape,
         Glue: t.logicOperator,
         SquareBrackets: t.string,

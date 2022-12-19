@@ -1,17 +1,23 @@
 @top Script { statement+ }
 
 statement { 
-    SimpleComment |
-    PriorityComment |
-    MultiLineComment |
     Knot |
+    Stitch |
+    StoryEnd
+}
+
+knotContent {
     Divert |
-    Image |
     Glue |
     Image |
+    PriorityComment |
     StoryEnd |
+    SimpleComment |
+    MultiLineComment |
     SquareBrackets |
-    Choice
+    Choice |
+    Letter |
+    Number
 }
 
 Image {
@@ -19,29 +25,39 @@ Image {
 }
 
 Knot {
-    KnotDefinition Letter
+    "=" "="+ LinkedName "==" NewLine knotContent* KnotEnd
+}
+
+Stitch {
+    "=" LinkedName "=" NewLine knotContent* KnotEnd
 }
 
 Divert {
-    "->" KnotName
+    "->" LinkedName
 }
 
-@skip { space }
+@skip {} {
+    Space {
+        " "*
+    }
+}
 
 @tokens {
     space { @whitespace+ }
     Number { @digit+ }
     Letter { @asciiLetter+ }
-    KnotName { $[a-zA-Z0-9_]+ }
+    NewLine { ![\n] }
+    KnotEnd { "-> DONE"}
+    LinkedName { ($[a-z] | $[A-Z] | $[0-9] | "_")+ }
     ImageName { $[a-zA-Z0-9_-]* (".png" | ".jpg" | ".svg") }
     ImageDefinition { "#IMAGE:" }
     SimpleComment { "//" ![\n]* }
     PriorityComment { "TODO:" ![\n]* }
     KnotDefinition { "=" "="+ }
-    StoryEnd { "-> END" | "-> DONE" }
+    StoryEnd { "-> END" }
     Glue { "<>" }
     MultiLineComment { "/*" ![*/]* "*/" }
     SquareBrackets { "[" ![\]\n]* "]" }
-    Choice { "*" }
-    // @precedence {StoryEnd, Divert}
+    Choice { "*"+ }
+    @precedence {StoryEnd, PriorityComment, Letter}
 }

@@ -2,7 +2,10 @@
 
 statement {
     Node |
-    NodeInfo
+    NodeInfo |
+    Letter  |
+    Number |
+    Comment
 }
 
 nodeContent {
@@ -10,8 +13,12 @@ nodeContent {
     Variable |
     VariableSet |
     IfBlock |
-    Letter | 
-    Number
+    // InlineIf |
+    Letter |
+    Option |
+    Bracket |
+    Function |
+    Comment
 }
 
 Node {
@@ -30,17 +37,25 @@ Variable {
     "$" JoinedCharacter
 }
 
+Function {
+    Letter "(" ")"
+}
+
 VariableSet {
     BeginStatement "set" Variable "to" (Number | String | Boolean ) EndStatement
 }
 
 IfBlock {
-    BeginStatement "if" (Variable | Number) Operator (Variable | Number) EndStatement nodeContent* BeginStatement "endif" EndStatement
+    BeginStatement "if" (Variable | Number | Function) Operator (Variable | Number) EndStatement nodeContent* BeginStatement "endif" EndStatement
+}
+
+InlineIf {
+    BeginStatement "if" (Variable | Number) Operator (Variable | Number) EndStatement
 }
 
 
 
-@skip {} {
+@skip {Comment} {
     Space {
       " "+
     }
@@ -63,8 +78,7 @@ IfBlock {
     }
     OpenBrace { "{" }
     CloseBrace { "}" }
-    OpenSquareBracket { "[" }
-    CloseSquareBracket { "]" }
-    Comment { "//" ![\n] }
-    @precedence{ Comment }
+    Bracket { "]" | "["}
+    Comment { "//" ![\n]* }
+    @precedence{ Comment Operator Letter Number}
 }
