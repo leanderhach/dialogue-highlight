@@ -2,23 +2,22 @@
 
 statement {
     Node |
-    NodeInfo |
+    NodeInfo
     Letter  |
-    Number |
-    Comment
+    Comment |
+    Tag
 }
 
 nodeContent {
     Name |
     Variable |
-    VariableSet |
-    IfBlock |
-    // InlineIf |
     Letter |
     Option |
-    Bracket |
     Function |
-    Comment
+    Comment |
+    Statement |
+    Markup |
+    Tag
 }
 
 Node {
@@ -38,21 +37,20 @@ Variable {
 }
 
 Function {
-    Letter "(" ")"
+    Letter FunctionArgs
 }
 
-VariableSet {
-    BeginStatement "set" Variable "to" (Number | String | Boolean ) EndStatement
+Statement {
+    BeginStatement Keyword (Number | Letter | (Variable | Number | Function | String) Operator (Variable | Number | String))?  EndStatement
 }
 
-IfBlock {
-    BeginStatement "if" (Variable | Number | Function) Operator (Variable | Number) EndStatement nodeContent* BeginStatement "endif" EndStatement
+SelectSetup {
+    JoinedCharacter "=" (Brace Variable Brace | String)
 }
 
-InlineIf {
-    BeginStatement "if" (Variable | Number) Operator (Variable | Number) EndStatement
+Markup {
+    Bracket (JoinedCharacter | SelectSetup)* Bracket
 }
-
 
 
 @skip {Comment} {
@@ -65,20 +63,22 @@ InlineIf {
     space { @whitespace+ }
     Number { @digit+ }
     Letter { @asciiLetter+ }
+    FunctionArgs { "(" ![)]* ")" }
     String { $["] !["\n]+ $["]}
     Boolean { "true" | "false" }
-    JoinedCharacter { ($[a-z] | "_" | $[A-Z] | $[0-9])+ }
+    JoinedCharacter { ($[a-z] | "_" | $[A-Z] | $[0-9] )+ }
     Option { "->" }
     BeginStatement { "<<" }
     EndStatement { ">>" }
-    Keyword { "if" | "set" | "else" | "endif" | "elseif" }
+    Keyword { "if" | "set" | "else" | "endif" | "elseif" | "wait" | "jump"}
     Operator { 
         "is" | "to" | "not" | "ne" | "eq" | "le" | "ge" | "gt" | "lt "| "and" | "or" |
         "+" | "-" | "*/" | "!" | "<" | ">" | "=" | "==" | "<=" | ">="
     }
-    OpenBrace { "{" }
-    CloseBrace { "}" }
+    Tag { "#" ![\n#]* }
+    Brace { "{" | "}" }
     Bracket { "]" | "["}
     Comment { "//" ![\n]* }
-    @precedence{ Comment Operator Letter Number}
+    HeaderTag { ("#" (":" | JoinedCharacter | " ")* ) }
+    @precedence{ Comment Tag Operator Keyword String }
 }
