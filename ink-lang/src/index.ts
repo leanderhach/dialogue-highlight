@@ -18,7 +18,7 @@ export const InkLang = LRLanguage.define({
         SimpleComment: t.comment,
         PriorityComment: t.processingInstruction,
         MultiLineComment: t.comment,
-        "Knot Stitch Divert! LinkedName KnotEnd": t.labelName,
+        "BlockDefinition BlockEnd Divert!": t.labelName,
         StoryEnd: t.escape,
         Glue: t.logicOperator,
         SquareBrackets: t.string,

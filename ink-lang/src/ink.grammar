@@ -1,12 +1,14 @@
 @top Script { statement+ }
 
 statement { 
-    Knot |
-    Stitch |
-    StoryEnd
+    Block |
+    StoryEnd |
+    SimpleComment |
+    MultiLineComment |
+    PriorityComment
 }
 
-knotContent {
+Content {
     Divert |
     Glue |
     Image |
@@ -24,12 +26,8 @@ Image {
     ImageDefinition ImageName
 }
 
-Knot {
-    "=" "="+ LinkedName "==" NewLine knotContent* KnotEnd
-}
-
-Stitch {
-    "=" LinkedName "=" NewLine knotContent* KnotEnd
+Block {
+    BlockDefinition NewLine Content* BlockEnd
 }
 
 Divert {
@@ -47,13 +45,13 @@ Divert {
     Number { @digit+ }
     Letter { @asciiLetter+ }
     NewLine { ![\n] }
-    KnotEnd { "-> DONE"}
+    BlockEnd { "-> DONE"}
     LinkedName { ($[a-z] | $[A-Z] | $[0-9] | "_")+ }
     ImageName { $[a-zA-Z0-9_-]* (".png" | ".jpg" | ".svg") }
     ImageDefinition { "#IMAGE:" }
     SimpleComment { "//" ![\n]* }
     PriorityComment { "TODO:" ![\n]* }
-    KnotDefinition { "=" "="+ }
+    BlockDefinition { "="+ (![\n])* }
     StoryEnd { "-> END" }
     Glue { "<>" }
     MultiLineComment { "/*" ![*/]* "*/" }

@@ -65,4 +65,8 @@
   h2 {
     color: darkgray;
   }
+
+  .cm-editor {
+    border-radius: 10px;
+  }
 </style>
