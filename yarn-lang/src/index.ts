@@ -14,7 +14,7 @@ export const YarnLang = LRLanguage.define({
       }),
       styleTags({
         Arg: t.definitionKeyword,
-        "Variable! Tag! HeaderTag!": t.labelName,
+        "Variable! Tag! HeaderTag! NodeStart NodeEnd": t.labelName,
         "( )": t.paren,
         "BeginStatement EndStatement Operator Bracket Brace SelectSetup": t.operatorKeyword,
         "Statement Keyword Option JoinedCharacter": t.keyword,
@@ -22,8 +22,7 @@ export const YarnLang = LRLanguage.define({
         String: t.string,
         Number: t.number,
         Comment: t.comment,
-        "Name!": t.heading,
-        "NodeInfo!": t.propertyName,
+        "Name! NodeHeader": t.heading,
       })
     ]
   }),

@@ -2,10 +2,8 @@
 
 statement {
     Node |
-    NodeInfo
-    Letter  |
-    Comment |
-    Tag
+    NodeInfo |
+    Comment
 }
 
 nodeContent {
@@ -21,11 +19,11 @@ nodeContent {
 }
 
 Node {
-    "---" nodeContent* "==="
+    NodeStart nodeContent* NodeEnd
 }
 
 NodeInfo {
-    Letter ":"
+    NodeHeader (JoinedCharacter | Tag+) LineEnd
 }
 
 Name {
@@ -62,11 +60,12 @@ Markup {
 @tokens {
     space { @whitespace+ }
     Number { @digit+ }
+    LineEnd { $[\n] }
     Letter { @asciiLetter+ }
     FunctionArgs { "(" ![)]* ")" }
     String { $["] !["\n]+ $["]}
     Boolean { "true" | "false" }
-    JoinedCharacter { ($[a-z] | "_" | $[A-Z] | $[0-9] )+ }
+    JoinedCharacter { ($[a-z] | "_" | $[A-Z] | $[0-9])+ }
     Option { "->" }
     BeginStatement { "<<" }
     EndStatement { ">>" }
@@ -80,5 +79,8 @@ Markup {
     Bracket { "]" | "["}
     Comment { "//" ![\n]* }
     HeaderTag { ("#" (":" | JoinedCharacter | " ")* ) }
+    NodeStart { "---" }
+    NodeEnd { "===" }
+    NodeHeader { JoinedCharacter + ":"}
     @precedence{ Comment Tag Operator Keyword String }
 }
